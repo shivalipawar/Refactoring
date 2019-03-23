@@ -5,12 +5,12 @@ import java.util.ArrayList;
 class Family {
 
     ArrayList children;
-    Person spouse;
+    Person marriedToBornChild;
     Person bornChild;
 
-    Family(Person bornChild, Person spouse){
+    Family(Person bornChild, Person marriedToBornChild){
         this.bornChild = bornChild;
-        this.spouse = spouse;
+        this.marriedToBornChild = marriedToBornChild;
         this.children = new ArrayList();
     }
 
@@ -19,12 +19,12 @@ class Family {
     }
 
     boolean contains(String name) {
-        return this.bornChild.getName().equals(name) || this.spouse.getName().equals(name);
+        return this.bornChild.getName().equals(name) || this.marriedToBornChild.getName().equals(name);
     }
 
     Person getMother(Family node){
         Person mother;
-        return mother = (node.bornChild.getGender()==GenderType.Female) ? bornChild : spouse;
+        return mother = (node.bornChild.getGender()==GenderType.Female) ? bornChild : marriedToBornChild;
     }
 
     ArrayList<Person> getBornChildren(Family rootNode){

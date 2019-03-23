@@ -41,7 +41,7 @@ public class TreeHelper {
         Person p;
         if (temp == null) return null;
 
-        if (temp.spouse.getName().equals(personName) || temp.bornChild.getName().equals(personName)) return temp;
+        if (temp.marriedToBornChild.getName().equals(personName) || temp.bornChild.getName().equals(personName)) return temp;
         if (temp.children == null) return null;
         for (Object child : temp.children) {
             if (child instanceof Family) {
@@ -78,38 +78,34 @@ public class TreeHelper {
     }
 
     public ArrayList getResultForGivenRelation(Family familyRootNode, String personName, String relationName) throws CustomException {
-        ArrayList relationResult = new ArrayList<>();
-        Family parentfamilyOfGivenPerson = (Family) getParentFamily(personName,familyRootNode);
-        if(parentfamilyOfGivenPerson != null){
-            relationResult = getPersonForGivenRelationship(parentfamilyOfGivenPerson,personName,relationName,familyRootNode);
-        }
-        else{
-            relationResult = getPersonForGivenRelationship(null,personName,relationName,familyRootNode);
-        }
+        ArrayList relationResult = getPersonForGivenRelationship(familyRootNode,personName,relationName);
         return relationResult;
     }
 
-//    private void displayOutput(ArrayList relationResult) {
-//        for(Object relationObj : relationResult){
-//            System.out.print(relationObj);
-//        }
-//    }
-
-    private ArrayList getPersonForGivenRelationship(Family parentfamilyOfGivenPerson, String personName, String relationName, Family familyRootNode) throws CustomException {
+    private ArrayList getPersonForGivenRelationship(Family familyRootNode, String personName, String relationName) throws CustomException {
         switch(relationName){
             case "Siblings" :
-                return getSiblings(parentfamilyOfGivenPerson,personName);
+                return getSiblings(familyRootNode,personName);
             case "Daughter" :
                 return getDaughterOrSon(familyRootNode,personName,GenderType.Female);
             case "Son" :
                 return getDaughterOrSon(familyRootNode,personName,GenderType.Male);
+            case "Paternal-Uncle" :
+                return getParentalAuntOrUncle(familyRootNode,personName,GenderType.Male);
+            case "Paternal-Aunt" :
+                return getParentalAuntOrUncle(familyRootNode,personName,GenderType.Female);
+            case "Maternal-Uncle" :
+                return getMaternalAuntOrUncle(familyRootNode,personName,GenderType.Male);
+            case "Maternal-Aunt" :
+                return getMaternalAuntOrUncle(familyRootNode,personName,GenderType.Female);
             default:
                 break;
         }
         return null;
     }
 
-    private ArrayList getDaughterOrSon(Family familyRootNode, String personName, GenderType genderType) throws CustomException {
+
+    protected ArrayList getDaughterOrSon(Family familyRootNode, String personName, GenderType genderType) throws CustomException {
         Object childsFamily = searchPerson(personName,familyRootNode);
         if(childsFamily instanceof Family) {
             ArrayList children = familyRootNode.getBornChildren((Family) childsFamily);
@@ -127,13 +123,44 @@ public class TreeHelper {
         return (ArrayList) childList;
     }
 
-    private ArrayList getSiblings(Family parentfamilyOfGivenPerson, String personName) {
+    protected ArrayList getSiblings(Family familyRootNode, String personName) {
         ArrayList siblings = new ArrayList<Person>();
+        Family parentfamilyOfGivenPerson = (Family) getParentFamily(personName,familyRootNode);
         ArrayList children = parentfamilyOfGivenPerson.getBornChildren(parentfamilyOfGivenPerson);
         for(Object child : children){
            if(((Person)child).getName()!=personName)siblings.add(child);
         }
         return siblings;
+    }
+
+    protected ArrayList getParentalAuntOrUncle(Family familyRootNode, String personName, GenderType genderType) throws CustomException {
+        Family parentOfPerson = (Family) getParentFamily(personName,familyRootNode);
+        ArrayList siblingsOfFather,fatherBrothers,fatherSisters;
+        String errorMsg;
+        if(parentOfPerson.bornChild.getGender().equals(GenderType.Male)){
+            siblingsOfFather = getSiblings(familyRootNode,parentOfPerson.bornChild.getName());
+            if(genderType.equals(GenderType.Male)){
+                return fatherBrothers = getchildDependingOnGender(GenderType.Male,siblingsOfFather);
+            }
+            return fatherSisters = getchildDependingOnGender(GenderType.Female,siblingsOfFather);
+        }
+//        if(genderType.equals(GenderType.Male)) errorMsg ="There are no paternal uncles";
+//        errorMsg ="There are no paternal aunts";
+//        throw new CustomException(errorMsg);
+        return null;
+    }
+
+    private ArrayList getMaternalAuntOrUncle(Family familyRootNode, String personName, GenderType genderType) {
+        Family parentOfPerson = (Family) getParentFamily(personName,familyRootNode);
+        ArrayList siblingsOfMother,motherBrothers,motherSisters;
+        if(parentOfPerson.bornChild.getGender().equals(GenderType.Female)){
+            siblingsOfMother = getSiblings(familyRootNode,parentOfPerson.bornChild.getName());
+            if(genderType.equals(GenderType.Male)){
+                return motherBrothers = getchildDependingOnGender(GenderType.Male,siblingsOfMother);
+            }
+            return motherSisters = getchildDependingOnGender(GenderType.Female,siblingsOfMother);
+        }
+        return null;
     }
 }
 
