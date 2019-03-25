@@ -30,8 +30,8 @@ public class TreeHelperTest {
         level2Family2 = new Family(new Person("Jnki", GenderType.Female),new Person("Arit",GenderType.Male));
         level2Family3 = new Family(new Person("Asva", GenderType.Male),new Person("Satvy",GenderType.Female));
         level2Family4 = new Family(new Person("Vyas", GenderType.Male),new Person("Krip",GenderType.Female));
-        level2PersonChild1 = new Person("Tritha", GenderType.Male);
-        level2PersonChild2 = new Person("Vritha", GenderType.Female);
+        level2PersonChild1 = new Person("Tritha", GenderType.Female);
+        level2PersonChild2 = new Person("Vritha", GenderType.Male);
         level2PersonChild3 = new Person("Vila", GenderType.Female);
         level2PersonChild4 = new Person("Chilka", GenderType.Female);
         level2PersonChild5 = new Person("Ahit", GenderType.Male);
@@ -53,10 +53,6 @@ public class TreeHelperTest {
         familyRootNode.addChild(level1Family4);
     }
 
-    @Before
-    public void createTree(){
-
-    }
     @Test(expected = CustomException.class)
     public void addChildShouldThrowExceptionWhenTryingToAddChildToMale() throws CustomException {
         String mother = "Pjali";
@@ -212,9 +208,43 @@ public class TreeHelperTest {
         Assert.assertEquals(expected,result);
     }
     @Test
-    public void getResultForGivenRelationShouldReturnListOfSisterInLaw(){
-
+    public void getResultForGivenRelationShouldReturnListOfSisterInLawForSpouseSister() throws CustomException {
+        level1Family1.addChild(level2Family1);
+        level1Family1.addChild(level2PersonChild1);
+        level1Family1.addChild(level2PersonChild2);
+        ArrayList expected = new ArrayList();
+        expected.add(level2PersonChild1);
+        ArrayList result = treeHelper.getResultForGivenRelation(familyRootNode,level2Family1.marriedToBornChild.getName(),"Sister-in-law");
+        Assert.assertEquals(expected,result);
     }
-
-
+    @Test
+    public void getResultForGivenRelationShouldReturnListOfSisterInLawForSiblingWives() throws CustomException {
+        level1Family4.addChild(level2Family3);
+        level1Family4.addChild(level2Family4);
+        level1Family4.addChild(level2PersonChild6);
+        ArrayList expected = new ArrayList();
+        expected.add(level2Family3.marriedToBornChild);
+        ArrayList result = treeHelper.getResultForGivenRelation(familyRootNode,level2Family4.bornChild.getName(),"Sister-in-law");
+        Assert.assertEquals(expected,result);
+    }
+    @Test
+    public void getResultForGivenRelationShouldReturnListOfBrotherInLawForSpouseBrother() throws CustomException {
+        level1Family1.addChild(level2Family3);
+        level1Family1.addChild(level2Family4);
+        level1Family1.addChild(level2PersonChild6);
+        ArrayList expected = new ArrayList();
+        expected.add(level2Family4.bornChild);
+        ArrayList result = treeHelper.getResultForGivenRelation(familyRootNode,level2Family3.marriedToBornChild.getName(),"Brother-in-law");
+        Assert.assertEquals(expected,result);
+    }
+    @Test
+    public void getResultForGivenRelationShouldReturnListOfBrotherInLawForSiblingHusband() throws CustomException {
+        level1Family1.addChild(level2Family1);
+        level1Family1.addChild(level2PersonChild1);
+        level1Family1.addChild(level2PersonChild2);
+        ArrayList expected = new ArrayList();
+        expected.add(level2Family1.marriedToBornChild);
+        ArrayList result = treeHelper.getResultForGivenRelation(familyRootNode,level2PersonChild1.getName(),"Brother-in-law");
+        Assert.assertEquals(expected,result);
+    }
 }

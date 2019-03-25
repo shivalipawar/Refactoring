@@ -98,14 +98,96 @@ public class TreeHelper {
                 return getMaternalAuntOrUncle(familyRootNode,personName,GenderType.Male);
             case "Maternal-Aunt" :
                 return getMaternalAuntOrUncle(familyRootNode,personName,GenderType.Female);
+            case "Sister-in-law" :
+                return getSisterInLaw(familyRootNode,personName);
+            case "Brother-in-law" :
+                return getBrotherInLaw(familyRootNode,personName);
             default:
                 break;
         }
         return null;
     }
 
+    private ArrayList getBrotherInLaw(Family familyRootNode, String personName) {
+        Person spouse= null;
+        ArrayList spouseSiblings, spouseBrother, siblingsHusband = new ArrayList();
+        ArrayList<Family> personSiblingsFamilies;
+        Family parentOfPerson = (Family) getParentFamily(personName,familyRootNode);
+        ArrayList<Person> bornChildren = parentOfPerson.getBornChildren(parentOfPerson);
+        if(!(checkIfGivenPersonIsBornChild(bornChildren,personName))){
+            Object personFamily = searchPerson(personName,familyRootNode);
+            if(personFamily instanceof Family){
+                if(((Family) personFamily).bornChild.getName().equalsIgnoreCase(personName)){
+                    spouse = ((Family) personFamily).marriedToBornChild;
+                }else{
+                    spouse = ((Family) personFamily).bornChild;
+                }
+                spouseSiblings = getSiblings(familyRootNode,spouse.getName());
+                return spouseBrother = getchildDependingOnGender(GenderType.Male,spouseSiblings);
+            }
+            return null;
+        }
+        else{
+            personSiblingsFamilies = (getSiblingsFamily(familyRootNode,personName));
+            for(Family child :personSiblingsFamilies){
+                Person husband = child.marriedToBornChild;
+                siblingsHusband.add(husband);
+            }
+            return siblingsHusband;
+        }
+    }
 
-    protected ArrayList getDaughterOrSon(Family familyRootNode, String personName, GenderType genderType) throws CustomException {
+    private ArrayList getSisterInLaw(Family familyRootNode, String personName) {
+        Person spouse = null;
+        ArrayList<Family> personSiblingsFamilies;
+        ArrayList spouseSiblings,spouseSister,siblingWives,wifeOfSibling= new ArrayList();
+        Family parentOfPerson = (Family) getParentFamily(personName,familyRootNode);
+        ArrayList<Person> bornChildren = parentOfPerson.getBornChildren(parentOfPerson);
+        if(!(checkIfGivenPersonIsBornChild(bornChildren,personName))){
+            Object personFamily = searchPerson(personName,familyRootNode);
+            if(personFamily instanceof Family){
+                 if(((Family) personFamily).bornChild.getName().equalsIgnoreCase(personName)){
+                     spouse = ((Family) personFamily).marriedToBornChild;
+                 }else{
+                     spouse = ((Family) personFamily).bornChild;
+                }
+            spouseSiblings = getSiblings(familyRootNode,spouse.getName());
+            return spouseSister = getchildDependingOnGender(GenderType.Female,spouseSiblings);
+            }
+            return null;
+        }
+        else{
+                personSiblingsFamilies = (getSiblingsFamily(familyRootNode,personName));
+                for (Family family :personSiblingsFamilies){
+                    Person wife = family.marriedToBornChild;
+                    wifeOfSibling.add(wife);
+                }
+                return siblingWives = wifeOfSibling;
+        }
+    }
+
+    private ArrayList<Family> getSiblingsFamily(Family familyRootNode, String personName) {
+        ArrayList siblings = new ArrayList<Person>();
+        Family parentfamilyOfGivenPerson = (Family) getParentFamily(personName,familyRootNode);
+        ArrayList children = parentfamilyOfGivenPerson.children;
+        for(Object child : children){
+            if(child instanceof Family){
+                if(((Family) child).bornChild.getName().equals(personName) ||((Family) child).marriedToBornChild.getName().equals(personName)) ;
+                else siblings.add(child);
+            }
+        }
+        return siblings;
+    }
+
+    private boolean checkIfGivenPersonIsBornChild(ArrayList<Person> bornChildren, String personName) {
+        for(Person child :bornChildren){
+            if(personName.equals(child.getName())) return true;
+        }
+        return false;
+    }
+
+
+    private ArrayList getDaughterOrSon(Family familyRootNode, String personName, GenderType genderType) throws CustomException {
         Object childsFamily = searchPerson(personName,familyRootNode);
         if(childsFamily instanceof Family) {
             ArrayList children = familyRootNode.getBornChildren((Family) childsFamily);
@@ -123,7 +205,7 @@ public class TreeHelper {
         return (ArrayList) childList;
     }
 
-    protected ArrayList getSiblings(Family familyRootNode, String personName) {
+    private ArrayList getSiblings(Family familyRootNode, String personName) {
         ArrayList siblings = new ArrayList<Person>();
         Family parentfamilyOfGivenPerson = (Family) getParentFamily(personName,familyRootNode);
         ArrayList children = parentfamilyOfGivenPerson.getBornChildren(parentfamilyOfGivenPerson);
@@ -133,7 +215,7 @@ public class TreeHelper {
         return siblings;
     }
 
-    protected ArrayList getParentalAuntOrUncle(Family familyRootNode, String personName, GenderType genderType) throws CustomException {
+    private ArrayList getParentalAuntOrUncle(Family familyRootNode, String personName, GenderType genderType) throws CustomException {
         Family parentOfPerson = (Family) getParentFamily(personName,familyRootNode);
         ArrayList siblingsOfFather,fatherBrothers,fatherSisters;
         String errorMsg;
@@ -144,9 +226,6 @@ public class TreeHelper {
             }
             return fatherSisters = getchildDependingOnGender(GenderType.Female,siblingsOfFather);
         }
-//        if(genderType.equals(GenderType.Male)) errorMsg ="There are no paternal uncles";
-//        errorMsg ="There are no paternal aunts";
-//        throw new CustomException(errorMsg);
         return null;
     }
 

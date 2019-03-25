@@ -1,6 +1,6 @@
 package com.shivali.familytree;
 
-public enum Relation{
+public enum Relation {
     PaternalUncle,
     MaternalUncle,
     PaternalAunt,
@@ -11,7 +11,7 @@ public enum Relation{
     Daughter,
     Siblings;
 
-    public String getEnumAsString(Relation relationName){
+    public String getEnumAsString(Relation relationName) {
         return relationName.name();
     }
 }
