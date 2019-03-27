@@ -22,13 +22,13 @@ class Family {
         return this.bornChild.getName().equals(name) || this.marriedToBornChild.getName().equals(name);
     }
 
-    Person getMother(Family node) {
-        return (node.bornChild.getGender() == GenderType.Female) ? bornChild : marriedToBornChild;
+    Person getMother() {
+        return (bornChild.getGender() == GenderType.Female) ? bornChild : marriedToBornChild;
     }
 
-    ArrayList getBornChildren(){
-        return (ArrayList<Person>) this.children.stream().map((child)->{
-            if(child instanceof Family) return ((Family) child).bornChild;
+    ArrayList<Person> getBornChildren() {
+        return (ArrayList<Person>) this.children.stream().map((child) -> {
+            if (child instanceof Family) return ((Family) child).bornChild;
             else return child;
         }).collect(Collectors.toList());
     }

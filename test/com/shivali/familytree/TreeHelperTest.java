@@ -11,8 +11,8 @@ import static org.mockito.Mockito.when;
 
 public class TreeHelperTest {
     TreeHelper treeHelper;
-    Family familyRootNode, level1Family1, level1Family2, level1Family3, level1Family4, level2Family1,level2Family2,level2Family3,level2Family4;
-    Person father, mother, level1PersonChild1, level2PersonChild1, level2PersonChild2,level2PersonChild3,level2PersonChild4,level2PersonChild5,level2PersonChild6, level3PersonChild1,level3PersonChild2,level3PersonChild3,level3PersonChild4,level3PersonChild5,level3PersonChild6;
+    Family familyRootNode, level1Family1, level1Family2, level1Family3, level1Family4, level2Family1, level2Family2, level2Family3, level2Family4;
+    Person father, mother, level1PersonChild1, level2PersonChild1, level2PersonChild2, level2PersonChild3, level2PersonChild4, level2PersonChild5, level2PersonChild6, level3PersonChild1, level3PersonChild2, level3PersonChild3, level3PersonChild4, level3PersonChild5, level3PersonChild6;
     ArrayList<Object> childrenList;
     ArrayList<Object> familyTreeList;
 
@@ -26,10 +26,10 @@ public class TreeHelperTest {
         level1Family2 = new Family(new Person("Vich", GenderType.Male), new Person("Lika", GenderType.Female));
         level1Family3 = new Family(new Person("Aras", GenderType.Male), new Person("Chitra", GenderType.Female));
         level1Family4 = new Family(new Person("Satya", GenderType.Female), new Person("Vyan", GenderType.Male));
-        level2Family1 = new Family(new Person("Dritha", GenderType.Female),new Person("Jaya",GenderType.Male));
-        level2Family2 = new Family(new Person("Jnki", GenderType.Female),new Person("Arit",GenderType.Male));
-        level2Family3 = new Family(new Person("Asva", GenderType.Male),new Person("Satvy",GenderType.Female));
-        level2Family4 = new Family(new Person("Vyas", GenderType.Male),new Person("Krip",GenderType.Female));
+        level2Family1 = new Family(new Person("Dritha", GenderType.Female), new Person("Jaya", GenderType.Male));
+        level2Family2 = new Family(new Person("Jnki", GenderType.Female), new Person("Arit", GenderType.Male));
+        level2Family3 = new Family(new Person("Asva", GenderType.Male), new Person("Satvy", GenderType.Female));
+        level2Family4 = new Family(new Person("Vyas", GenderType.Male), new Person("Krip", GenderType.Female));
         level2PersonChild1 = new Person("Tritha", GenderType.Female);
         level2PersonChild2 = new Person("Vritha", GenderType.Male);
         level2PersonChild3 = new Person("Vila", GenderType.Female);
@@ -78,25 +78,18 @@ public class TreeHelperTest {
     }
 
     @Test
-    public void searchMotherShouldReturnNullWhenMotherNotFound() {
-        String motherName = "Ambika";
-        Object obj = treeHelper.searchMothersFamily(motherName, familyRootNode);
-        Assert.assertNull(obj);
+    public void getFamilyShouldReturnFamilyObjectForMarriedChild() {
+        String childName = "Chit";
+        Object obj = treeHelper.getParentFamily(childName, familyRootNode);
+        Assert.assertEquals(familyRootNode, obj);
     }
 
     @Test
-    public void getFamilyShouldReturnFamilyObjectForMarriedChild(){
-        String childName ="Chit";
-        Object obj = treeHelper.getParentFamily(childName,familyRootNode);
-        Assert.assertEquals(familyRootNode,obj);
-    }
-
-    @Test
-    public  void getFamilyShouldReturnPersonObjectForUnmarriedChild(){
+    public void getFamilyShouldReturnPersonObjectForUnmarriedChild() {
         level1Family1.addChild(level2Family1);
-        String childName ="Jaya";
-        Object obj= treeHelper.getParentFamily(childName,familyRootNode);
-        Assert.assertEquals(level1Family1,obj);
+        String childName = "Jaya";
+        Object obj = treeHelper.getParentFamily(childName, familyRootNode);
+        Assert.assertEquals(level1Family1, obj);
     }
 
     @Test
@@ -113,10 +106,10 @@ public class TreeHelperTest {
         level1Family1.addChild(level2Family1);
         level1Family1.addChild(level2PersonChild1);
         level1Family1.addChild(level2PersonChild2);
-        when(mockedTH.getParentFamily(level2PersonChild1.getName(),familyRootNode)).thenReturn(level1Family1);
+        when(mockedTH.getParentFamily(level2PersonChild1.getName(), familyRootNode)).thenReturn(level1Family1);
         when(mockedFamily.getBornChildren()).thenReturn(mockedListOfAllChildren);
-        ArrayList result =treeHelper.getResultForGivenRelation(familyRootNode, level2PersonChild1.getName(),"Siblings");
-        Assert.assertEquals(expected,result);
+        ArrayList result = treeHelper.getResultForGivenRelation(familyRootNode, level2PersonChild1.getName(), "Siblings");
+        Assert.assertEquals(expected, result);
     }
 
     @Test
@@ -124,10 +117,11 @@ public class TreeHelperTest {
         ArrayList expected = new ArrayList();
         expected.add(level1Family4.bornChild);
         TreeHelper mockedTH = Mockito.mock(TreeHelper.class);
-        when(mockedTH.searchPerson(familyRootNode.bornChild.getName(),familyRootNode)).thenReturn(familyRootNode);
-        ArrayList result =treeHelper.getResultForGivenRelation(familyRootNode,familyRootNode.bornChild.getName(),"Daughter");
-        Assert.assertEquals(expected,result);
+        when(mockedTH.searchFamilyOf(familyRootNode.bornChild.getName(), familyRootNode)).thenReturn(familyRootNode);
+        ArrayList result = treeHelper.getResultForGivenRelation(familyRootNode, familyRootNode.bornChild.getName(), "Daughter");
+        Assert.assertEquals(expected, result);
     }
+
     @Test
     public void getResultForGivenRelationShouldReturnCorrectListOfDaughter() throws CustomException {
         level1Family2.addChild(level2PersonChild3);
@@ -136,10 +130,11 @@ public class TreeHelperTest {
         expected.add(level2PersonChild3);
         expected.add(level2PersonChild4);
         TreeHelper mockedTH = Mockito.mock(TreeHelper.class);
-        when(mockedTH.searchPerson(level1Family2.marriedToBornChild.getName(),familyRootNode)).thenReturn(level1Family2);
-        ArrayList result =treeHelper.getResultForGivenRelation(familyRootNode, level1Family2.marriedToBornChild.getName(),"Daughter");
-        Assert.assertEquals(expected,result);
+        when(mockedTH.searchFamilyOf(level1Family2.marriedToBornChild.getName(), familyRootNode)).thenReturn(level1Family2);
+        ArrayList result = treeHelper.getResultForGivenRelation(familyRootNode, level1Family2.marriedToBornChild.getName(), "Daughter");
+        Assert.assertEquals(expected, result);
     }
+
     @Test
     public void getResultForGivenRelationShouldReturnOneSonIfNotMultiple() throws CustomException {
         level1Family1.addChild(level2Family1);
@@ -147,10 +142,11 @@ public class TreeHelperTest {
         ArrayList expected = new ArrayList();
         expected.add(level3PersonChild1);
         TreeHelper mockedTH = Mockito.mock(TreeHelper.class);
-        when(mockedTH.searchPerson(level2Family1.bornChild.getName(),familyRootNode)).thenReturn(level2Family1);
-        ArrayList result =treeHelper.getResultForGivenRelation(familyRootNode, level2Family1.marriedToBornChild.getName(),"Son");
-        Assert.assertEquals(expected,result);
+        when(mockedTH.searchFamilyOf(level2Family1.bornChild.getName(), familyRootNode)).thenReturn(level2Family1);
+        ArrayList result = treeHelper.getResultForGivenRelation(familyRootNode, level2Family1.marriedToBornChild.getName(), "Son");
+        Assert.assertEquals(expected, result);
     }
+
     @Test
     public void getResultForGivenRelationShouldReturnListOfSon() throws CustomException {
         ArrayList expected = new ArrayList();
@@ -159,10 +155,11 @@ public class TreeHelperTest {
         expected.add(level1Family2.bornChild);
         expected.add(level1Family3.bornChild);
         TreeHelper mockedTH = Mockito.mock(TreeHelper.class);
-        when(mockedTH.searchPerson(familyRootNode.bornChild.getName(),familyRootNode)).thenReturn(familyRootNode);
-        ArrayList result =treeHelper.getResultForGivenRelation(familyRootNode,familyRootNode.bornChild.getName(),"Son");
-        Assert.assertEquals(expected,result);
+        when(mockedTH.searchFamilyOf(familyRootNode.bornChild.getName(), familyRootNode)).thenReturn(familyRootNode);
+        ArrayList result = treeHelper.getResultForGivenRelation(familyRootNode, familyRootNode.bornChild.getName(), "Son");
+        Assert.assertEquals(expected, result);
     }
+
     @Test
     public void getResultForGivenRelationShouldReturnListOfPaternalUncle() throws CustomException {
         level1Family1.addChild(level2Family1);
@@ -173,9 +170,10 @@ public class TreeHelperTest {
         expected.add(level1PersonChild1);
         expected.add(level1Family2.bornChild);
         expected.add(level1Family3.bornChild);
-        ArrayList result = treeHelper.getResultForGivenRelation(familyRootNode,level2PersonChild1.getName(),"Paternal-Uncle");
-        Assert.assertEquals(expected,result);
+        ArrayList result = treeHelper.getResultForGivenRelation(familyRootNode, level2PersonChild1.getName(), "Paternal-Uncle");
+        Assert.assertEquals(expected, result);
     }
+
     @Test
     public void getResultForGivenRelationShouldReturnListOfPaternalAunt() throws CustomException {
         level1Family1.addChild(level2Family1);
@@ -184,9 +182,10 @@ public class TreeHelperTest {
         level2Family1.addChild(level3PersonChild1);
         ArrayList expected = new ArrayList();
         expected.add(level1Family4.bornChild);
-        ArrayList result = treeHelper.getResultForGivenRelation(familyRootNode,level2PersonChild1.getName(),"Paternal-Aunt");
-        Assert.assertEquals(expected,result);
+        ArrayList result = treeHelper.getResultForGivenRelation(familyRootNode, level2PersonChild1.getName(), "Paternal-Aunt");
+        Assert.assertEquals(expected, result);
     }
+
     @Test
     public void getResultForGivenRelationShouldReturnListOfMaternalUncle() throws CustomException {
         level1Family4.addChild(level2Family3);
@@ -196,17 +195,19 @@ public class TreeHelperTest {
         expected.add(level1PersonChild1);
         expected.add(level1Family2.bornChild);
         expected.add(level1Family3.bornChild);
-        ArrayList result = treeHelper.getResultForGivenRelation(familyRootNode,level2Family3.bornChild.getName(),"Maternal-Uncle");
-        Assert.assertEquals(expected,result);
+        ArrayList result = treeHelper.getResultForGivenRelation(familyRootNode, level2Family3.bornChild.getName(), "Maternal-Uncle");
+        Assert.assertEquals(expected, result);
     }
+
     @Test
     public void getResultForGivenRelationShouldReturnListOfMaternalAunt() throws CustomException {
         level1Family4.addChild(level2Family3);
         level1Family4.addChild(level2Family4);
         ArrayList expected = new ArrayList();
-        ArrayList result = treeHelper.getResultForGivenRelation(familyRootNode,level2Family3.bornChild.getName(),"Maternal-Aunt");
-        Assert.assertEquals(expected,result);
+        ArrayList result = treeHelper.getResultForGivenRelation(familyRootNode, level2Family3.bornChild.getName(), "Maternal-Aunt");
+        Assert.assertEquals(expected, result);
     }
+
     @Test
     public void getResultForGivenRelationShouldReturnListOfSisterInLawForSpouseSister() throws CustomException {
         level1Family1.addChild(level2Family1);
@@ -214,9 +215,10 @@ public class TreeHelperTest {
         level1Family1.addChild(level2PersonChild2);
         ArrayList expected = new ArrayList();
         expected.add(level2PersonChild1);
-        ArrayList result = treeHelper.getResultForGivenRelation(familyRootNode,level2Family1.marriedToBornChild.getName(),"Sister-in-law");
-        Assert.assertEquals(expected,result);
+        ArrayList result = treeHelper.getResultForGivenRelation(familyRootNode, level2Family1.marriedToBornChild.getName(), "Sister-in-law");
+        Assert.assertEquals(expected, result);
     }
+
     @Test
     public void getResultForGivenRelationShouldReturnListOfSisterInLawForSiblingWives() throws CustomException {
         level1Family4.addChild(level2Family3);
@@ -224,9 +226,10 @@ public class TreeHelperTest {
         level1Family4.addChild(level2PersonChild6);
         ArrayList expected = new ArrayList();
         expected.add(level2Family3.marriedToBornChild);
-        ArrayList result = treeHelper.getResultForGivenRelation(familyRootNode,level2Family4.bornChild.getName(),"Sister-in-law");
-        Assert.assertEquals(expected,result);
+        ArrayList result = treeHelper.getResultForGivenRelation(familyRootNode, level2Family4.bornChild.getName(), "Sister-in-law");
+        Assert.assertEquals(expected, result);
     }
+
     @Test
     public void getResultForGivenRelationShouldReturnListOfBrotherInLawForSpouseBrother() throws CustomException {
         level1Family1.addChild(level2Family3);
@@ -234,9 +237,10 @@ public class TreeHelperTest {
         level1Family1.addChild(level2PersonChild6);
         ArrayList expected = new ArrayList();
         expected.add(level2Family4.bornChild);
-        ArrayList result = treeHelper.getResultForGivenRelation(familyRootNode,level2Family3.marriedToBornChild.getName(),"Brother-in-law");
-        Assert.assertEquals(expected,result);
+        ArrayList result = treeHelper.getResultForGivenRelation(familyRootNode, level2Family3.marriedToBornChild.getName(), "Brother-in-law");
+        Assert.assertEquals(expected, result);
     }
+
     @Test
     public void getResultForGivenRelationShouldReturnListOfBrotherInLawForSiblingHusband() throws CustomException {
         level1Family1.addChild(level2Family1);
@@ -244,7 +248,7 @@ public class TreeHelperTest {
         level1Family1.addChild(level2PersonChild2);
         ArrayList expected = new ArrayList();
         expected.add(level2Family1.marriedToBornChild);
-        ArrayList result = treeHelper.getResultForGivenRelation(familyRootNode,level2PersonChild1.getName(),"Brother-in-law");
-        Assert.assertEquals(expected,result);
+        ArrayList result = treeHelper.getResultForGivenRelation(familyRootNode, level2PersonChild1.getName(), "Brother-in-law");
+        Assert.assertEquals(expected, result);
     }
 }
