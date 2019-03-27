@@ -22,7 +22,7 @@ public class TreeHelper {
 
     Family searchFamilyOf(String personName, Family root) {
         if (root == null) return null;
-        if (root.marriedToBornChild.getName().equals(personName) || root.bornChild.getName().equals(personName))
+        if (root.spouse.getName().equals(personName) || root.bornChild.getName().equals(personName))
             return root;
         if (root.children == null) return null;
         for (Object child : root.children) {
@@ -96,7 +96,7 @@ public class TreeHelper {
             Object personFamily = searchFamilyOf(personName, familyRootNode);
             if (personFamily instanceof Family) {
                 if (((Family) personFamily).bornChild.getName().equalsIgnoreCase(personName)) {
-                    spouse = ((Family) personFamily).marriedToBornChild;
+                    spouse = ((Family) personFamily).spouse;
                 } else {
                     spouse = ((Family) personFamily).bornChild;
                 }
@@ -107,7 +107,7 @@ public class TreeHelper {
         } else {
             personSiblingsFamilies = (getSiblingsFamily(familyRootNode, personName));
             for (Family child : personSiblingsFamilies) {
-                Person husband = child.marriedToBornChild;
+                Person husband = child.spouse;
                 siblingsHusband.add(husband);
             }
             return siblingsHusband;
@@ -124,7 +124,7 @@ public class TreeHelper {
             Object personFamily = searchFamilyOf(personName, familyRootNode);
             if (personFamily instanceof Family) {
                 if (((Family) personFamily).bornChild.getName().equalsIgnoreCase(personName)) {
-                    spouse = ((Family) personFamily).marriedToBornChild;
+                    spouse = ((Family) personFamily).spouse;
                 } else {
                     spouse = ((Family) personFamily).bornChild;
                 }
@@ -135,7 +135,7 @@ public class TreeHelper {
         } else {
             personSiblingsFamilies = (getSiblingsFamily(familyRootNode, personName));
             for (Family family : personSiblingsFamilies) {
-                Person wife = family.marriedToBornChild;
+                Person wife = family.spouse;
                 wifeOfSibling.add(wife);
             }
             return wifeOfSibling;
@@ -148,7 +148,7 @@ public class TreeHelper {
         ArrayList children = parentfamilyOfGivenPerson.children;
         for (Object child : children) {
             if (child instanceof Family) {
-                if (((Family) child).bornChild.getName().equals(personName) || ((Family) child).marriedToBornChild.getName().equals(personName))
+                if (((Family) child).bornChild.getName().equals(personName) || ((Family) child).spouse.getName().equals(personName))
                     ;
                 else siblings.add(child);
             }
@@ -184,7 +184,7 @@ public class TreeHelper {
 
     private ArrayList getSiblings(Family familyRootNode, String personName) {
         ArrayList siblings = new ArrayList<Person>();
-        Family parentfamilyOfGivenPerson = (Family) getParentFamily(personName, familyRootNode);
+        Family parentfamilyOfGivenPerson = getParentFamily(personName, familyRootNode);
         ArrayList children = parentfamilyOfGivenPerson.getBornChildren();
         for (Object child : children) {
             if (!((Person) child).getName().equals(personName)) siblings.add(child);
@@ -193,7 +193,7 @@ public class TreeHelper {
     }
 
     private ArrayList getPaternalAuntOrUncle(Family familyRootNode, String personName, GenderType genderType) {
-        Family parentOfPerson = (Family) getParentFamily(personName, familyRootNode);
+        Family parentOfPerson = getParentFamily(personName, familyRootNode);
         ArrayList siblingsOfFather;
         if (parentOfPerson.bornChild.getGender().equals(GenderType.Male)) {
             siblingsOfFather = getSiblings(familyRootNode, parentOfPerson.bornChild.getName());
@@ -206,7 +206,7 @@ public class TreeHelper {
     }
 
     private ArrayList getMaternalAuntOrUncle(Family familyRootNode, String personName, GenderType genderType) {
-        Family parentOfPerson = (Family) getParentFamily(personName, familyRootNode);
+        Family parentOfPerson = getParentFamily(personName, familyRootNode);
         ArrayList siblingsOfMother;
         if (parentOfPerson.bornChild.getGender().equals(GenderType.Female)) {
             siblingsOfMother = getSiblings(familyRootNode, parentOfPerson.bornChild.getName());
@@ -218,4 +218,3 @@ public class TreeHelper {
         return null;
     }
 }
-

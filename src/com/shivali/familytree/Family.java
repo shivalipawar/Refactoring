@@ -5,12 +5,12 @@ import java.util.stream.Collectors;
 
 class Family {
     ArrayList children;
-    Person marriedToBornChild;
+    Person spouse;
     Person bornChild;
 
-    Family(Person bornChild, Person marriedToBornChild) {
+    Family(Person bornChild, Person spouse) {
         this.bornChild = bornChild;
-        this.marriedToBornChild = marriedToBornChild;
+        this.spouse = spouse;
         this.children = new ArrayList();
     }
 
@@ -19,11 +19,11 @@ class Family {
     }
 
     boolean contains(String name) {
-        return this.bornChild.getName().equals(name) || this.marriedToBornChild.getName().equals(name);
+        return this.bornChild.getName().equals(name) || this.spouse.getName().equals(name);
     }
 
     Person getMother() {
-        return (bornChild.getGender() == GenderType.Female) ? bornChild : marriedToBornChild;
+        return (bornChild.getGender() == GenderType.Female) ? bornChild : spouse;
     }
 
     ArrayList<Person> getBornChildren() {
