@@ -27,7 +27,7 @@ public class FamilyTest {
         outputExpected.add(bornChildFamily.bornChild);
         familyRootNode.addChild(bornChild);
         familyRootNode.addChild(bornChildFamily);
-        ArrayList<Person> bornChildren = familyRootNode.getBornChildren(familyRootNode);
+        ArrayList<Person> bornChildren = familyRootNode.getBornChildren();
         Assert.assertEquals(outputExpected,bornChildren);
     }
 }

@@ -9,10 +9,6 @@ class Person {
         this.gender = personGender;
     }
 
-    public Person() {
-
-    }
-
     String getName() {
         return name;
     }

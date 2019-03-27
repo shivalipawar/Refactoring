@@ -114,7 +114,7 @@ public class TreeHelperTest {
         level1Family1.addChild(level2PersonChild1);
         level1Family1.addChild(level2PersonChild2);
         when(mockedTH.getParentFamily(level2PersonChild1.getName(),familyRootNode)).thenReturn(level1Family1);
-        when(mockedFamily.getBornChildren(level1Family1)).thenReturn(mockedListOfAllChildren);
+        when(mockedFamily.getBornChildren()).thenReturn(mockedListOfAllChildren);
         ArrayList result =treeHelper.getResultForGivenRelation(familyRootNode, level2PersonChild1.getName(),"Siblings");
         Assert.assertEquals(expected,result);
     }
