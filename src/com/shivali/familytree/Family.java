@@ -3,18 +3,18 @@ package com.shivali.familytree;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-class Family {
+public class Family {
     ArrayList children;
-    Person spouse;
-    Person bornChild;
+    public Person spouse;
+    public Person bornChild;
 
-    Family(Person bornChild, Person spouse) {
+    public Family(Person bornChild, Person spouse) {
         this.bornChild = bornChild;
         this.spouse = spouse;
         this.children = new ArrayList();
     }
 
-    void addChild(Object child) {
+    public void addChild(Object child) {
         children.add(child);
     }
 
@@ -26,7 +26,7 @@ class Family {
         return (bornChild.getGender() == GenderType.Female) ? bornChild : spouse;
     }
 
-    ArrayList<Person> getBornChildren() {
+    public ArrayList<Person> getBornChildren() {
         return (ArrayList<Person>) this.children.stream().map((child) -> {
             if (child instanceof Family) return ((Family) child).bornChild;
             else return child;

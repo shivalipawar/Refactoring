@@ -1,19 +1,26 @@
 package com.shivali.familytree;
 
-class Person {
+public class Person {
     private String name;
     private GenderType gender;
 
-    Person(String personName, GenderType personGender) {
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                '}';
+    }
+
+    public Person(String personName, GenderType personGender) {
         this.name = personName;
         this.gender = personGender;
     }
 
-    String getName() {
+    public String getName() {
         return name;
     }
 
-    GenderType getGender() {
+    public GenderType getGender() {
         return gender;
     }
 }
