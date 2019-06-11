@@ -11,6 +11,7 @@ public class TreeHelper {
             String motherInFamily = familyNode.getMother().getName();
             if (motherInFamily.equals(motherName)) {
                 familyNode.addChild(new Person(childName, childGender));
+                System.out.println(Constants.CHILD_ADD_SUCCESS);
             } else {
                 throw new CustomException(Constants.CHILD_ADD_FAILURE);
             }
