@@ -16,6 +16,8 @@ public class BrotherInLaw implements IRelationShip {
         this.root = root;
     }
 
+    public BrotherInLaw() {}
+
     @Override
     public List<Person> getPersons(String personName) {
         ArrayList<Family> personSiblingsFamilies;

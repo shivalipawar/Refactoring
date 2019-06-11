@@ -17,6 +17,8 @@ public class MaternalAunt implements IRelationShip {
         this.root = root;
     }
 
+    public MaternalAunt() {}
+
     @Override
     public List<Person> getPersons(String personName) {
         Family parentOfPerson = getParentFamily(personName, root);

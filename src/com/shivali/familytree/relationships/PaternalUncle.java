@@ -18,6 +18,8 @@ public class PaternalUncle implements IRelationShip {
         this.root = root;
     }
 
+    public PaternalUncle() {}
+
     @Override
     public List<Person> getPersons(String personName) throws CustomException {
         Family parentOfPerson = getParentFamily(personName, root);

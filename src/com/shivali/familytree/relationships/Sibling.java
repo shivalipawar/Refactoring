@@ -11,8 +11,11 @@ import static com.shivali.familytree.TreeHelper.getParentFamily;
 public class Sibling implements IRelationShip {
     Family root;
 
-    Sibling(Family root) {
+    public Sibling(Family root) {
         this.root = root;
+    }
+
+    public Sibling() {
     }
 
     @Override

@@ -18,6 +18,8 @@ public class Son implements IRelationShip {
         this.root = root;
     }
 
+    public Son() {}
+
     @Override
     public List<Person> getPersons(String personName) throws CustomException {
         Family childsFamily = searchFamilyOf(personName, root);
