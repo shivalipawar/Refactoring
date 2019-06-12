@@ -1,8 +1,6 @@
 package com.shivali.familytree.relationships;
 
-import com.shivali.familytree.Family;
-import com.shivali.familytree.GenderType;
-import com.shivali.familytree.Person;
+import com.shivali.familytree.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,17 +18,24 @@ public class SisterInLaw implements IRelationShip {
     public SisterInLaw() {}
 
     @Override
-    public List<Person> getPersons(String personName) {
+    public List<Person> getPersons(String personName) throws CustomException {
         Family parentOfPerson = getParentFamily(personName,root );
-        ArrayList<Person> bornChildren = parentOfPerson.getBornChildren();
-        if (isBornChildren(bornChildren, personName)) {
-            return getSiblingsFamily(root, personName).stream().map(family -> family.spouse).collect(Collectors.toList());
-        } else {
-            Object personFamily = searchFamilyOf(personName, root);
-            Person spouse = getSpouse(personName, (Family) personFamily);
-            ArrayList spouseSiblings = getSiblings(root, spouse.getName());
-            return getchildDependingOnGender(GenderType.Female, spouseSiblings);
+        if(parentOfPerson!= null){
+            ArrayList<Person> bornChildren = parentOfPerson.getBornChildren();
+            if (isBornChildren(bornChildren, personName)) {
+                return getSiblingsFamily(root, personName).stream().map(family -> family.spouse).collect(Collectors.toList());
+            } else {
+                Object personFamily = searchFamilyOf(personName, root);
+                Person spouse = getSpouse(personName, (Family) personFamily);
+                ArrayList spouseSiblings = getSiblings(root, spouse.getName());
+                return getchildDependingOnGender(GenderType.Female, spouseSiblings);
+            }
         }
+        else{
+            System.out.println(Constants.PERSON_NOT_FOUND);
+            throw new CustomException("PERSON_NOT_FOUND");
+        }
+
     }
 
     private Person getSpouse(String personName, Family personFamily) {

@@ -5,18 +5,35 @@ import java.util.stream.Collectors;
 
 public class TreeHelper {
 
-    void addChildToTree(String motherName, String childName, GenderType childGender, Family rootFamily) throws CustomException {
+    Family addChildToTree(String motherName, String childName, GenderType childGender, Family rootFamily) throws CustomException {
         Family familyNode = searchFamilyOf(motherName, rootFamily);
         if (familyNode != null) {
             String motherInFamily = familyNode.getMother().getName();
             if (motherInFamily.equals(motherName)) {
                 familyNode.addChild(new Person(childName, childGender));
                 System.out.println(Constants.CHILD_ADD_SUCCESS);
+                System.out.println("Going to display current tree.....");
+                displayTree(rootFamily);
+                return rootFamily;
             } else {
                 throw new CustomException(Constants.CHILD_ADD_FAILURE);
             }
         } else {
             throw new CustomException(Constants.PERSON_NOT_FOUND);
+        }
+    }
+
+    public void displayTree(Family rootFamily) {
+        if(rootFamily == null || rootFamily.children==null) return;
+        else{
+            for (Object child : rootFamily.children){
+                if (child instanceof Family) {
+                    System.out.println("Family "+((Family) child).bornChild.getName()+" - "+((Family) child).spouse.getName());
+                    displayTree((Family) child);
+                }else if(child instanceof Person){
+                    System.out.println("Child "+((Person) child).getName());
+                }
+            }
         }
     }
 

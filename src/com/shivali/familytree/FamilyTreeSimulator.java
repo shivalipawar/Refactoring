@@ -5,14 +5,13 @@ import com.shivali.familytree.relationships.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+//TODO : Diff result in same scenarios of Aria and Atya.Need to discuss.
+//TODO : Due to object creation at begin its causing issue check for Aria.
 public class FamilyTreeSimulator {
     public static void main(String[] args) {
         Family root = createTree();
         TreeHelper treeHelper = new TreeHelper();
-        //TODO Root should be passed to createRelationMap and remove unwanted constructor from all relation classes
-        Map<String,IRelationShip> relations = createRelationMap(root);
-        //TODO Make sure filepath is correct
+        //TODO : Make sure filepath is correct
         String fileName= "C:\\Projects\\IdeaProj\\family-tree\\resource\\input";
         InputProcessor inputProcessor = new InputProcessor();
         List<String> inputFromUser = inputProcessor.processInput(fileName);
@@ -21,11 +20,13 @@ public class FamilyTreeSimulator {
             if(words[0].equalsIgnoreCase(Constants.ADD_CHILD)){
                 GenderType genderType = (words[3].equalsIgnoreCase("Female")) ? GenderType.Female : GenderType.Male;
                 try {
-                    treeHelper.addChildToTree(words[1],words[2],genderType,root);
+                    root = treeHelper.addChildToTree(words[1],words[2],genderType,root);
                 } catch (CustomException e) {
                     e.printStackTrace();
                 }
             }else{
+                //TODO : Root should be passed to createRelationMap and remove unwanted constructor from all relation classes
+                Map<String,IRelationShip> relations = createRelationMap(root);
                 String personName = words[1];
                 String relation = words[2];
                 IRelationShip relationObj = relations.get(relation);
@@ -63,6 +64,47 @@ public class FamilyTreeSimulator {
         level1Family2 = new Family(new Person("Vich", GenderType.Male), new Person("Lika", GenderType.Female));
         level1Family3 = new Family(new Person("Aras", GenderType.Male), new Person("Chitra", GenderType.Female));
         level1Family4 = new Family(new Person("Satya", GenderType.Female), new Person("Vyan", GenderType.Male));
+        level2Family1 = new Family(new Person("Dritha", GenderType.Female), new Person("Jaya", GenderType.Male));
+        level2Family2 = new Family(new Person("Jnki", GenderType.Female), new Person("Arit", GenderType.Male));
+        level2Family3 = new Family(new Person("Asva", GenderType.Male), new Person("Satvy", GenderType.Female));
+        level2Family4 = new Family(new Person("Vyas", GenderType.Male), new Person("Krip", GenderType.Female));
+        level2PersonChild1 = new Person("Tritha", GenderType.Female);
+        level2PersonChild2 = new Person("Vritha", GenderType.Male);
+        level2PersonChild3 = new Person("Vila", GenderType.Female);
+        level2PersonChild4 = new Person("Chilka", GenderType.Female);
+        level2PersonChild5 = new Person("Ahit", GenderType.Male);
+        level2PersonChild6 = new Person("Atya", GenderType.Female);
+        level3PersonChild1 = new Person("Yodhan", GenderType.Male);
+        level3PersonChild2 = new Person("Laki", GenderType.Male);
+        level3PersonChild3 = new Person("Lavnya", GenderType.Female);
+        level3PersonChild4 = new Person("Vasa", GenderType.Male);
+        level3PersonChild5 = new Person("Kriya", GenderType.Male);
+        level3PersonChild6 = new Person("Krithi", GenderType.Female);
+
+        level1Family1.addChild(level2Family1);
+        level1Family1.addChild(level2PersonChild1);
+        level1Family1.addChild(level2PersonChild2);
+
+        level1Family2.addChild(level2PersonChild3);
+        level1Family2.addChild(level2PersonChild4);
+
+        level1Family3.addChild(level2Family2);
+        level1Family3.addChild(level2PersonChild5);
+
+        level1Family4.addChild(level2Family3);
+        level1Family4.addChild(level2Family4);
+        level1Family4.addChild(level2PersonChild6);
+
+        level2Family1.addChild(level3PersonChild1);
+
+        level2Family2.addChild(level3PersonChild2);
+        level2Family2.addChild(level3PersonChild3);
+
+        level2Family3.addChild(level3PersonChild4);
+
+        level2Family4.addChild(level3PersonChild5);
+        level2Family4.addChild(level3PersonChild6);
+
         father = new Person("Shan", GenderType.Male);
         mother = new Person("Anga", GenderType.Female);
         familyRootNode = new Family(father, mother);
