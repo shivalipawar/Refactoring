@@ -20,7 +20,8 @@ public class SisterInLaw implements IRelationShip {
     @Override
     public List<Person> getPersons(String personName) throws CustomException {
         Family parentOfPerson = getParentFamily(personName,root );
-        if(parentOfPerson!= null){
+
+        if(parentOfPerson!= null ){
             ArrayList<Person> bornChildren = parentOfPerson.getBornChildren();
             if (isBornChildren(bornChildren, personName)) {
                 return getSiblingsFamily(root, personName).stream().map(family -> family.spouse).collect(Collectors.toList());
@@ -30,8 +31,7 @@ public class SisterInLaw implements IRelationShip {
                 ArrayList spouseSiblings = getSiblings(root, spouse.getName());
                 return getchildDependingOnGender(GenderType.Female, spouseSiblings);
             }
-        }
-        else{
+        }else {
             System.out.println(Constants.PERSON_NOT_FOUND);
             throw new CustomException("PERSON_NOT_FOUND");
         }

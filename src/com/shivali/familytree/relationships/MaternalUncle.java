@@ -1,9 +1,6 @@
 package com.shivali.familytree.relationships;
 
-import com.shivali.familytree.CustomException;
-import com.shivali.familytree.Family;
-import com.shivali.familytree.GenderType;
-import com.shivali.familytree.Person;
+import com.shivali.familytree.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +18,16 @@ public class MaternalUncle implements IRelationShip {
     public MaternalUncle() {}
 
     @Override
-    public List<Person> getPersons(String personName) {
+    public List<Person> getPersons(String personName) throws CustomException {
         Family parentOfPerson = getParentFamily(personName, root);
         ArrayList<Person> siblingsOfMother;
         Sibling sibling = new Sibling(root);
-        siblingsOfMother = (ArrayList<Person>) sibling.getPersons(parentOfPerson.bornChild.getName());
-        return getchildDependingOnGender(GenderType.Male, siblingsOfMother);
+        if(parentOfPerson!= null){
+            siblingsOfMother = (ArrayList<Person>) sibling.getPersons(parentOfPerson.bornChild.getName());
+            return getchildDependingOnGender(GenderType.Male, siblingsOfMother);
+        }else{
+            System.out.println(Constants.PERSON_NOT_FOUND);
+            throw new CustomException("PERSON_NOT_FOUND");
+        }
     }
 }

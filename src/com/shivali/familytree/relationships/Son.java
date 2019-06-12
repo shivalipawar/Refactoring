@@ -1,9 +1,6 @@
 package com.shivali.familytree.relationships;
 
-import com.shivali.familytree.CustomException;
-import com.shivali.familytree.Family;
-import com.shivali.familytree.GenderType;
-import com.shivali.familytree.Person;
+import com.shivali.familytree.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +24,7 @@ public class Son implements IRelationShip {
             ArrayList<Person> children = childsFamily.getBornChildren();
             return getchildDependingOnGender(GenderType.Male, children);
         } else {
+            System.out.println(Constants.PERSON_NOT_FOUND);
             throw new CustomException("PERSON_NOT_FOUND");
         }
     }

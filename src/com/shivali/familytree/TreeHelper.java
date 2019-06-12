@@ -16,9 +16,11 @@ public class TreeHelper {
                 displayTree(rootFamily);
                 return rootFamily;
             } else {
+                System.out.println(Constants.CHILD_ADD_FAILURE);
                 throw new CustomException(Constants.CHILD_ADD_FAILURE);
             }
         } else {
+            System.out.println(Constants.PERSON_NOT_FOUND);
             throw new CustomException(Constants.PERSON_NOT_FOUND);
         }
     }

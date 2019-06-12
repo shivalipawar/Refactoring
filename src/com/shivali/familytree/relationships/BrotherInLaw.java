@@ -19,19 +19,26 @@ public class BrotherInLaw implements IRelationShip {
     public BrotherInLaw() {}
 
     @Override
-    public List<Person> getPersons(String personName) {
+    public List<Person> getPersons(String personName) throws CustomException {
         ArrayList<Family> personSiblingsFamilies;
         Family parentOfPerson = getParentFamily(personName, root);
-        ArrayList bornChildren = parentOfPerson.getBornChildren();
-        if (isBornChildren(bornChildren, personName)) {
-            personSiblingsFamilies = getSiblingsFamily(root, personName);
-            return personSiblingsFamilies.stream().map(person -> person.spouse).collect(Collectors.toList());
-        } else {
-            Family personFamily = searchFamilyOf(personName, root);
-            Person spouse = getSpouse(personName, personFamily);
-            ArrayList spouseSiblings = getSiblings(root, spouse.getName());
-            return getchildDependingOnGender(GenderType.Male, spouseSiblings);
+        if (parentOfPerson!= null) {
+            ArrayList bornChildren = parentOfPerson.getBornChildren();
+            if (isBornChildren(bornChildren, personName)) {
+                personSiblingsFamilies = getSiblingsFamily(root, personName);
+                return personSiblingsFamilies.stream().map(person -> person.spouse).collect(Collectors.toList());
+            } else {
+                Family personFamily = searchFamilyOf(personName, root);
+                Person spouse = getSpouse(personName, personFamily);
+                ArrayList spouseSiblings = getSiblings(root, spouse.getName());
+                return getchildDependingOnGender(GenderType.Male, spouseSiblings);
+            }
         }
+        else{
+            System.out.println(Constants.PERSON_NOT_FOUND);
+            throw new CustomException("PERSON_NOT_FOUND");
+        }
+
     }
 
     private Person getSpouse(String personName, Family personFamily) {

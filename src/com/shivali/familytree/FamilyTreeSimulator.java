@@ -11,12 +11,16 @@ public class FamilyTreeSimulator {
     public static void main(String[] args) {
         Family root = createTree();
         TreeHelper treeHelper = new TreeHelper();
-        //TODO : Make sure filepath is correct
-        String fileName= "C:\\Projects\\IdeaProj\\family-tree\\resource\\input";
+        //TODO Make sure filepath is correct
+        String fileName= "C:\\Users\\Shivali\\IdeaProjects\\FamilyTree\\resource\\input";
         InputProcessor inputProcessor = new InputProcessor();
         List<String> inputFromUser = inputProcessor.processInput(fileName);
         for (String line1:inputFromUser){
             String words[] = line1.split(" ");
+//            System.out.println("array of words is ");
+//            for (String wrd:words) {
+//                System.out.print(wrd+" ");
+//            }
             if(words[0].equalsIgnoreCase(Constants.ADD_CHILD)){
                 GenderType genderType = (words[3].equalsIgnoreCase("Female")) ? GenderType.Female : GenderType.Male;
                 try {
@@ -29,11 +33,19 @@ public class FamilyTreeSimulator {
                 Map<String,IRelationShip> relations = createRelationMap(root);
                 String personName = words[1];
                 String relation = words[2];
+//                System.out.println(" person name and relation is"+personName+" "+relation);
                 IRelationShip relationObj = relations.get(relation);
-                System.out.println("Relation is "+relationObj);
                 try {
                     List<Person> resultOfRelation = relationObj.getPersons(personName);
-                    System.out.println(resultOfRelation);
+                    if (resultOfRelation.size() != 0) {
+                        for (Person p : resultOfRelation) {
+                            System.out.print(p.getName() + " ");
+                        }
+                        System.out.println();
+                    }
+                    else{
+                        System.out.println("None");
+                    }
                 } catch (CustomException e) {
                     e.printStackTrace();
                 }
@@ -114,6 +126,7 @@ public class FamilyTreeSimulator {
         familyRootNode.addChild(level1Family2);
         familyRootNode.addChild(level1Family3);
         familyRootNode.addChild(level1Family4);
+
         return familyRootNode;
     }
 }

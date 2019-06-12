@@ -1,8 +1,7 @@
-ADD_CHILD Chitra Aria Female
-GET_RELATIONSHIP Lavnya Maternal-Aunt
-GET_RELATIONSHIP Aria Siblings
-GET_RELATIONSHIP Atya Sister-In-Law
 ADD_CHILD Asva Vani Female
 GET_RELATIONSHIP Vasa Siblings
-ADD_CHILD Pjali Srutak Male
-GET_RELATIONSHIP Pjali Son
+GET_RELATIONSHIP Srutak Son
+GET_RELATIONSHIP Vama Brother-In-Law
+GET_RELATIONSHIP Leela Paternal-Uncle
+GET_RELATIONSHIP Amitabh Maternal-Aunt
+
