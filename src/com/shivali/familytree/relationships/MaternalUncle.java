@@ -15,8 +15,6 @@ public class MaternalUncle implements IRelationShip {
         this.root = root;
     }
 
-    public MaternalUncle() {}
-
     @Override
     public List<Person> getPersons(String personName) throws CustomException {
         Family parentOfPerson = getParentFamily(personName, root);
@@ -27,7 +25,8 @@ public class MaternalUncle implements IRelationShip {
             return getchildDependingOnGender(GenderType.Male, siblingsOfMother);
         }else{
             System.out.println(Constants.PERSON_NOT_FOUND);
-            throw new CustomException("PERSON_NOT_FOUND");
+//            throw new CustomException("PERSON_NOT_FOUND");
         }
+        return null;
     }
 }

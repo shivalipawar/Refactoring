@@ -15,8 +15,6 @@ public class PaternalAunt implements IRelationShip {
         this.root = root;
     }
 
-    public PaternalAunt() {}
-
     @Override
     public List<Person> getPersons(String personName) throws CustomException {
         Family parentOfPerson = getParentFamily(personName, root);
@@ -29,7 +27,7 @@ public class PaternalAunt implements IRelationShip {
             }
         }else{
             System.out.println(Constants.PERSON_NOT_FOUND);
-            throw new CustomException("PERSON_NOT_FOUND");
+//            throw new CustomException("PERSON_NOT_FOUND");
         }
         return null;
     }

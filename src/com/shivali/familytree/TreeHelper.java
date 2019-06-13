@@ -12,8 +12,6 @@ public class TreeHelper {
             if (motherInFamily.equals(motherName)) {
                 familyNode.addChild(new Person(childName, childGender));
                 System.out.println(Constants.CHILD_ADD_SUCCESS);
-                System.out.println("Going to display current tree.....");
-                displayTree(rootFamily);
                 return rootFamily;
             } else {
                 System.out.println(Constants.CHILD_ADD_FAILURE);

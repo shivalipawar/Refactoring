@@ -16,8 +16,6 @@ public class BrotherInLaw implements IRelationShip {
         this.root = root;
     }
 
-    public BrotherInLaw() {}
-
     @Override
     public List<Person> getPersons(String personName) throws CustomException {
         ArrayList<Family> personSiblingsFamilies;
@@ -36,9 +34,9 @@ public class BrotherInLaw implements IRelationShip {
         }
         else{
             System.out.println(Constants.PERSON_NOT_FOUND);
-            throw new CustomException("PERSON_NOT_FOUND");
+            //throw new CustomException("PERSON_NOT_FOUND");
         }
-
+            return null;
     }
 
     private Person getSpouse(String personName, Family personFamily) {

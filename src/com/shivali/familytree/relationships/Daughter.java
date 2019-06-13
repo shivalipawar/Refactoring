@@ -15,8 +15,6 @@ public class Daughter implements IRelationShip {
         this.root = root;
     }
 
-    public Daughter() {}
-
     @Override
     public List<Person> getPersons(String personName) throws CustomException {
         Family childsFamily = searchFamilyOf(personName, root);
@@ -25,7 +23,8 @@ public class Daughter implements IRelationShip {
             return getchildDependingOnGender(GenderType.Female, children);
         } else {
             System.out.println(Constants.PERSON_NOT_FOUND);
-            throw new CustomException("PERSON_NOT_FOUND");
+            //throw new CustomException("PERSON_NOT_FOUND");
         }
+            return null;
     }
 }

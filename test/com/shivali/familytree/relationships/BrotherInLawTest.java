@@ -43,7 +43,7 @@ public class BrotherInLawTest {
     }
 
     @Test
-    public void getPersonsShouldReturnListOfBrotherInLawForSpouseBrother()  {
+    public void getPersonsShouldReturnListOfBrotherInLawForSpouseBrother() throws CustomException {
         level1Family1.addChild(level2Family3);
         level1Family1.addChild(level2Family4);
         level1Family1.addChild(level2PersonChild6);
@@ -54,7 +54,7 @@ public class BrotherInLawTest {
     }
 
     @Test
-    public void getPersonsShouldReturnListOfBrotherInLawForSiblingHusband()  {
+    public void getPersonsShouldReturnListOfBrotherInLawForSiblingHusband() throws CustomException {
         level1Family1.addChild(level2Family1);
         level1Family1.addChild(level2PersonChild1);
         level1Family1.addChild(level2PersonChild2);

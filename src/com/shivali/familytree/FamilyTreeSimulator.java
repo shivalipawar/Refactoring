@@ -5,22 +5,22 @@ import com.shivali.familytree.relationships.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-//TODO : Diff result in same scenarios of Aria and Atya.Need to discuss.
-//TODO : Due to object creation at begin its causing issue check for Aria.
+
 public class FamilyTreeSimulator {
+
+    public static final String filePath = "C:\\Users\\Shivali\\IdeaProjects\\FamilyTree\\resource\\input";
+
     public static void main(String[] args) {
         Family root = createTree();
         TreeHelper treeHelper = new TreeHelper();
-        //TODO Make sure filepath is correct
-        String fileName= "C:\\Users\\Shivali\\IdeaProjects\\FamilyTree\\resource\\input";
+        String fileName= filePath;
         InputProcessor inputProcessor = new InputProcessor();
         List<String> inputFromUser = inputProcessor.processInput(fileName);
-        for (String line1:inputFromUser){
-            String words[] = line1.split(" ");
-//            System.out.println("array of words is ");
-//            for (String wrd:words) {
-//                System.out.print(wrd+" ");
-//            }
+        System.out.println("Number of lines in a file "+inputFromUser.size());
+
+        for (int i=0; i<inputFromUser.size()-1;i++){
+            String[] words = inputFromUser.get(i).split(" ");
+
             if(words[0].equalsIgnoreCase(Constants.ADD_CHILD)){
                 GenderType genderType = (words[3].equalsIgnoreCase("Female")) ? GenderType.Female : GenderType.Male;
                 try {
@@ -29,15 +29,14 @@ public class FamilyTreeSimulator {
                     e.printStackTrace();
                 }
             }else{
-                //TODO : Root should be passed to createRelationMap and remove unwanted constructor from all relation classes
                 Map<String,IRelationShip> relations = createRelationMap(root);
                 String personName = words[1];
                 String relation = words[2];
-//                System.out.println(" person name and relation is"+personName+" "+relation);
                 IRelationShip relationObj = relations.get(relation);
                 try {
                     List<Person> resultOfRelation = relationObj.getPersons(personName);
-                    if (resultOfRelation.size() != 0) {
+                    if(resultOfRelation == null);
+                    else if (resultOfRelation.size() != 0) {
                         for (Person p : resultOfRelation) {
                             System.out.print(p.getName() + " ");
                         }
@@ -78,8 +77,8 @@ public class FamilyTreeSimulator {
         level1Family4 = new Family(new Person("Satya", GenderType.Female), new Person("Vyan", GenderType.Male));
         level2Family1 = new Family(new Person("Dritha", GenderType.Female), new Person("Jaya", GenderType.Male));
         level2Family2 = new Family(new Person("Jnki", GenderType.Female), new Person("Arit", GenderType.Male));
-        level2Family3 = new Family(new Person("Asva", GenderType.Male), new Person("Satvy", GenderType.Female));
-        level2Family4 = new Family(new Person("Vyas", GenderType.Male), new Person("Krip", GenderType.Female));
+        level2Family3 = new Family(new Person("Vyas", GenderType.Male), new Person("Krip", GenderType.Female));
+        level2Family4 = new Family(new Person("Asva", GenderType.Male), new Person("Satvy", GenderType.Female));
         level2PersonChild1 = new Person("Tritha", GenderType.Female);
         level2PersonChild2 = new Person("Vritha", GenderType.Male);
         level2PersonChild3 = new Person("Vila", GenderType.Female);

@@ -15,9 +15,6 @@ public class Sibling implements IRelationShip {
         this.root = root;
     }
 
-    public Sibling() {
-    }
-
     @Override
     public List<Person> getPersons(String personName) {
         return getParentFamily(personName, root).getBornChildren().stream()
