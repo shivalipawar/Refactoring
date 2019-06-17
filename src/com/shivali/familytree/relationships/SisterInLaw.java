@@ -17,21 +17,19 @@ public class SisterInLaw implements IRelationShip {
 
     @Override
     public List<Person> getPersons(String personName) throws CustomException {
-        Family parentOfPerson = getParentFamily(personName,root );
+        Family family = getParentFamily(personName, root);
 
-        if(parentOfPerson!= null ){
-            ArrayList<Person> bornChildren = parentOfPerson.getBornChildren();
-            if (isBornChildren(bornChildren, personName)) {
-                return getSiblingsFamily(root, personName).stream().map(family -> family.spouse).collect(Collectors.toList());
+        if (family != null) {
+            if (isBornChildrenOf(family, personName)) {
+                return getSiblingsFamily(root, personName).stream().map(f -> f.spouse).collect(Collectors.toList());
             } else {
                 Object personFamily = searchFamilyOf(personName, root);
                 Person spouse = getSpouse(personName, (Family) personFamily);
                 ArrayList spouseSiblings = getSiblings(root, spouse.getName());
-                return getchildDependingOnGender(GenderType.Female, spouseSiblings);
+                return getchildForGender(GenderType.Female, spouseSiblings);
             }
-        }else {
+        } else {
             System.out.println(Constants.PERSON_NOT_FOUND);
-            //throw new CustomException("PERSON_NOT_FOUND");
         }
         return null;
     }

@@ -10,9 +10,9 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-public class MaternalUncleTest{
-    Family familyRootNode, level1Family1, level1Family2, level1Family3, level1Family4,level2Family1,level2Family3,level2Family4;
-    Person level1PersonChild1, father, mother,level2PersonChild1,level2PersonChild2,level3PersonChild1;
+public class MaternalUncleTest {
+    Family familyRootNode, level1Family1, level1Family2, level1Family3, level1Family4, level2Family1, level2Family3, level2Family4;
+    Person level1PersonChild1, father, mother, level2PersonChild1, level2PersonChild2, level3PersonChild1;
     MaternalUncle maternalUncle;
 
     @Before

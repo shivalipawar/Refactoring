@@ -8,16 +8,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class InputProcessor {
-    private List<String> formattedInput = new ArrayList<>();
-    public List<String> processInput(String fileName) {
-        try(BufferedReader br =  Files.newBufferedReader(Paths.get(fileName))){
-            formattedInput = br.lines().collect(Collectors.toList());
-        }
-        catch(IOException e){
+class InputProcessor {
+    List<String> processInput(String fileName) {
+        try (BufferedReader br = Files.newBufferedReader(Paths.get(fileName))) {
+            return br.lines().filter(this::noEmpty).collect(Collectors.toList());
+        } catch (IOException e) {
             e.printStackTrace();
+            return new ArrayList<>();
         }
-        formattedInput.forEach(System.out::println);
-        return formattedInput;
+    }
+
+    private boolean noEmpty(String line) {
+        return !line.equals("");
     }
 }

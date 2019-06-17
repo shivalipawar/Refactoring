@@ -15,4 +15,6 @@ public class Constants {
     public static final String PATERNAL_AUNT ="Paternal-Aunt";
     public static final String MATERNAL_UNCLE ="Maternal-Uncle";
     public static final String PATERNAL_UNCLE ="Paternal-Uncle";
+    public static final String FILE_PATH = "C:\\Users\\Shivali\\IdeaProjects\\FamilyTree\\resource\\input";
+    public static final String NONE = "None";
 }

@@ -78,14 +78,14 @@ public class TreeHelperTest {
     }
 
     @Test
-    public void getFamilyShouldReturnFamilyObjectForMarriedChild() {
+    public void getFamilyShouldReturnFamilyObjectForMarriedChild() throws CustomException {
         String childName = "Chit";
         Object obj = treeHelper.getParentFamily(childName, familyRootNode);
         Assert.assertEquals(familyRootNode, obj);
     }
 
     @Test
-    public void getFamilyShouldReturnPersonObjectForUnmarriedChild() {
+    public void getFamilyShouldReturnPersonObjectForUnmarriedChild() throws CustomException {
         level1Family1.addChild(level2Family1);
         String childName = "Jaya";
         Object obj = treeHelper.getParentFamily(childName, familyRootNode);

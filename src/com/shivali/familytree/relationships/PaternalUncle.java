@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.shivali.familytree.TreeHelper.getParentFamily;
-import static com.shivali.familytree.TreeHelper.getchildDependingOnGender;
+import static com.shivali.familytree.TreeHelper.getchildForGender;
 
 public class PaternalUncle implements IRelationShip {
     Family root;
@@ -20,15 +20,16 @@ public class PaternalUncle implements IRelationShip {
         Family parentOfPerson = getParentFamily(personName, root);
         ArrayList<Person> siblingsOfFather;
         Sibling sibling = new Sibling(root);
-        if(parentOfPerson!= null){
+        if (parentOfPerson != null) {
             if (parentOfPerson.bornChild.getGender().equals(GenderType.Male)) {
                 siblingsOfFather = (ArrayList<Person>) sibling.getPersons(parentOfPerson.bornChild.getName());
-                return getchildDependingOnGender(GenderType.Male, siblingsOfFather);
+                return getchildForGender(GenderType.Male, siblingsOfFather);
+            } else {
+                return new ArrayList<>();
             }
-        }else{
+        } else {
             System.out.println(Constants.PERSON_NOT_FOUND);
-//            throw new CustomException("PERSON_NOT_FOUND");
+            throw new CustomException("PERSON_NOT_FOUND");
         }
-        return null;
     }
 }

@@ -6,45 +6,30 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FamilyTreeSimulator {
+import static com.shivali.familytree.Constants.*;
 
-    public static final String filePath = "C:\\Users\\Shivali\\IdeaProjects\\FamilyTree\\resource\\input";
+public class FamilyTreeSimulator {
 
     public static void main(String[] args) {
         Family root = createTree();
+        Map<String, IRelationShip> relations = createRelationMap(root);
         TreeHelper treeHelper = new TreeHelper();
-        String fileName= filePath;
-        InputProcessor inputProcessor = new InputProcessor();
-        List<String> inputFromUser = inputProcessor.processInput(fileName);
-        System.out.println("Number of lines in a file "+inputFromUser.size());
-
-        for (int i=0; i<inputFromUser.size()-1;i++){
-            String[] words = inputFromUser.get(i).split(" ");
-
-            if(words[0].equalsIgnoreCase(Constants.ADD_CHILD)){
-                GenderType genderType = (words[3].equalsIgnoreCase("Female")) ? GenderType.Female : GenderType.Male;
+        List<String> userCommands = new InputProcessor().processInput(FILE_PATH);
+        for (String line : userCommands) {
+            String[] words = line.split(" ");
+            if (words[0].equalsIgnoreCase(ADD_CHILD)) {
+                GenderType genderType = getGender(words);
                 try {
-                    root = treeHelper.addChildToTree(words[1],words[2],genderType,root);
+                    treeHelper.addChildToTree(words[1], words[2], genderType, root);
                 } catch (CustomException e) {
                     e.printStackTrace();
                 }
-            }else{
-                Map<String,IRelationShip> relations = createRelationMap(root);
+            } else {
                 String personName = words[1];
                 String relation = words[2];
                 IRelationShip relationObj = relations.get(relation);
                 try {
-                    List<Person> resultOfRelation = relationObj.getPersons(personName);
-                    if(resultOfRelation == null);
-                    else if (resultOfRelation.size() != 0) {
-                        for (Person p : resultOfRelation) {
-                            System.out.print(p.getName() + " ");
-                        }
-                        System.out.println();
-                    }
-                    else{
-                        System.out.println("None");
-                    }
+                    printRelationsResult(relationObj.getPersons(personName));
                 } catch (CustomException e) {
                     e.printStackTrace();
                 }
@@ -53,17 +38,32 @@ public class FamilyTreeSimulator {
 
     }
 
+    private static void printRelationsResult(List<Person> resultOfRelation) {
+        if (resultOfRelation.size() != 0) {
+            for (Person p : resultOfRelation) {
+                System.out.print(p.getName() + " ");
+            }
+            System.out.println();
+        } else {
+            System.out.println(NONE);
+        }
+    }
+
+    private static GenderType getGender(String[] words) {
+        return (words[3].equalsIgnoreCase("Female")) ? GenderType.Female : GenderType.Male;
+    }
+
     private static Map<String, IRelationShip> createRelationMap(Family root) {
         Map<String, IRelationShip> relations = new HashMap<>();
-        relations.put(Constants.SIBLINGS,new Sibling(root));
-        relations.put(Constants.DAUGHTER,new Daughter(root));
-        relations.put(Constants.SON,new Son(root));
-        relations.put(Constants.SISTER_IN_LAW,new SisterInLaw(root));
-        relations.put(Constants.BROTHER_IN_LAW,new BrotherInLaw(root));
-        relations.put(Constants.MATERNAL_AUNT,new MaternalAunt(root));
-        relations.put(Constants.PATERNAL_AUNT,new PaternalAunt(root));
-        relations.put(Constants.MATERNAL_UNCLE,new MaternalUncle(root));
-        relations.put(Constants.PATERNAL_UNCLE,new PaternalUncle(root));
+        relations.put(Constants.SIBLINGS, new Sibling(root));
+        relations.put(Constants.DAUGHTER, new Daughter(root));
+        relations.put(Constants.SON, new Son(root));
+        relations.put(Constants.SISTER_IN_LAW, new SisterInLaw(root));
+        relations.put(Constants.BROTHER_IN_LAW, new BrotherInLaw(root));
+        relations.put(Constants.MATERNAL_AUNT, new MaternalAunt(root));
+        relations.put(Constants.PATERNAL_AUNT, new PaternalAunt(root));
+        relations.put(Constants.MATERNAL_UNCLE, new MaternalUncle(root));
+        relations.put(Constants.PATERNAL_UNCLE, new PaternalUncle(root));
         return relations;
     }
 

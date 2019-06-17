@@ -1,5 +1,6 @@
 package com.shivali.familytree.relationships;
 
+import com.shivali.familytree.CustomException;
 import com.shivali.familytree.Family;
 import com.shivali.familytree.Person;
 
@@ -16,7 +17,7 @@ public class Sibling implements IRelationShip {
     }
 
     @Override
-    public List<Person> getPersons(String personName) {
+    public List<Person> getPersons(String personName) throws CustomException {
         return getParentFamily(personName, root).getBornChildren().stream()
                 .filter(p -> !p.getName().equals(personName))
                 .collect(Collectors.toList());

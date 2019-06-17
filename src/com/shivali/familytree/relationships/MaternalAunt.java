@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.shivali.familytree.TreeHelper.getParentFamily;
-import static com.shivali.familytree.TreeHelper.getchildDependingOnGender;
+import static com.shivali.familytree.TreeHelper.getchildForGender;
 
 public class MaternalAunt implements IRelationShip {
     Family root;
@@ -18,18 +18,12 @@ public class MaternalAunt implements IRelationShip {
     @Override
     public List<Person> getPersons(String personName) throws CustomException {
         Family parentOfPerson = getParentFamily(personName, root);
-        ArrayList<Person> siblingsOfMother;
-        Sibling sibling = new Sibling(root);
-        if(parentOfPerson!= null){
-            if (parentOfPerson.bornChild.getGender().equals(GenderType.Female)) {
-                siblingsOfMother = (ArrayList<Person>) sibling.getPersons(parentOfPerson.bornChild.getName());
-                return getchildDependingOnGender(GenderType.Female, siblingsOfMother);
-            }
+        if (parentOfPerson.bornChild.getGender().equals(GenderType.Female)) {
+            ArrayList<Person> siblingsOfMother = (ArrayList<Person>) new Sibling(root)
+                    .getPersons(parentOfPerson.bornChild.getName());
+            return getchildForGender(GenderType.Female, siblingsOfMother);
         }
-        else{
-            System.out.println(Constants.PERSON_NOT_FOUND);
-//            throw new CustomException("PERSON_NOT_FOUND");
-        }
-        return null;
+        return new ArrayList<>();
+
     }
 }
