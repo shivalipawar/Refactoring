@@ -1,7 +1,7 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.shivali</groupId>
-    <artifactId>familytree</artifactId>
+    <artifactId>refactoring</artifactId>
     <version>1</version>
     <build>
         <plugins>

@@ -1,0 +1,4 @@
+1) Extracted methods should not have parameters that will be modified but should have parameters which are not modified exg: amountFor has amount.
+2) Rename variables to some meaningful names.
+3) In most cases a method should be on the object whose data it uses, thus the method should be moved to the
+  rental from Customer
