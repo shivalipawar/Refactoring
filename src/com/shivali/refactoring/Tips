@@ -2,3 +2,7 @@
 2) Rename variables to some meaningful names.
 3) In most cases a method should be on the object whose data it uses, thus the method should be moved to the
   rental from Customer
+4) Temp variable thisAmount was assigned value once and use dt multiple places so we replaced it with method call rather than keeping the temp variable. Temps are often a
+    problem in that they cause a lot of parameters to be passed around when they don't have to be.
+5)The other temp used is frequentRenterPoints. In this case frequentRenterPoints does have a value beforehand. The body of the extracted method
+  doesn't read the value, however, so we don't need to pass it in as a parameter as long as we use an appending assignment.
