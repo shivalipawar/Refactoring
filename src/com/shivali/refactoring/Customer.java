@@ -28,7 +28,7 @@ public class Customer {
             //show figures for this rental
             //determine amounts for each line at method getCharge()
             result += "\t" + each.getMovie().getTitle()+ "\t" +
-                    String.valueOf(each.getCharge()) + "\n";
+                    String.valueOf(each._movie._priceCode.getCharge(each.getDaysRented())) + "\n";
         }
         //add footer lines
         result += "Amount owed is " + String.valueOf(getTotalCharge()) +
@@ -48,7 +48,7 @@ public class Customer {
             //show figures for this rental
             //determine amounts for each line at method getCharge()
             result += "\t" + each.getMovie().getTitle()+ "\t" +
-                    String.valueOf(each.getCharge()) + "<BR>\n";
+                    String.valueOf(each._movie._priceCode.getCharge(each.getDaysRented())) + "<BR>\n";
         }
         //add footer lines
         result += "<P>Amount owed is <EM>" + String.valueOf(getTotalCharge()) +
@@ -74,7 +74,7 @@ public class Customer {
         Enumeration rentals = _rentals.elements();
         while (rentals.hasMoreElements()){
             Rental each = (Rental) rentals.nextElement();
-            totalAmount += each.getCharge();
+            totalAmount += each._movie._priceCode.getCharge(each.getDaysRented());
         }
         return totalAmount;
     }

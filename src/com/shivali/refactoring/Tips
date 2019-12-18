@@ -6,3 +6,8 @@
     problem in that they cause a lot of parameters to be passed around when they don't have to be.
 5)The other temp used is frequentRenterPoints. In this case frequentRenterPoints does have a value beforehand. The body of the extracted method
   doesn't read the value, however, so we don't need to pass it in as a parameter as long as we use an appending assignment.
+6)It is a bad idea to do a switch based on an attribute of another object. If you must use a switch statement, it should be on your own data, not
+  on someone else's. Move that switch to property of class which its using.
+7)
+8)I begin with Replace Type Code with State/Strategy. This first step is to use Self Encapsulate Field on the type code to ensure that all uses of the type code go through getting
+  and setting methods.
